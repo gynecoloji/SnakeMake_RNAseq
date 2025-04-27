@@ -1,0 +1,33 @@
+.
+  |-data
+  |-envs
+  |-logs
+  |  |-fastp
+  |  |-fastqc
+  |  |-featurecounts
+  |  |-hisat2
+  |  |-multiqc
+  |  |-picard
+  |  |-qualimap
+  |  |-rseqc
+  |  |-samtools
+  |  |-samtools_byname
+  |  |-salmon
+  |-ref
+  |  |-ENSEMBL
+  |  |-Salmon_index_decoy_Grch38
+  |  |-Salmon_index_Grch38
+  |-results
+  |  |-fastqc
+  |  |  |-raw
+  |  |-featurecounts
+  |  |-hisat2
+  |  |-multiqc_data
+  |  |-picard
+  |  |-qualimap_bamqc
+  |  |-rseqc
+  |  |-samtools
+  |  |-samtools_byname
+  |  |-trimmed
+  |  |-quants
+  |  |-quants_decoy
