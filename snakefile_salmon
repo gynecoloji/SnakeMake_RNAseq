@@ -15,7 +15,7 @@ rule salmon_quant:
         r1="results/trimmed/{sample}_R1.trimmed.fastq.gz",
         r2="results/trimmed/{sample}_R2.trimmed.fastq.gz"
     output:
-        directory("results/quants/{sample}_quant")
+        "results/quants/{sample}_quant/quant.sf"
     log:
         "logs/salmon/{sample}_salmon.log"
     threads: 20
@@ -33,7 +33,7 @@ rule salmon_quant:
             -2 {input.r2} \
             -p {threads} \
             --validateMappings \
-            -o {output} > {log} 2>&1
+            -o results/quants/{wildcards.sample}_quant > {log} 2>&1
         """
 
 # Rule 2: Salmon quantification (decoy-aware index)
@@ -42,7 +42,7 @@ rule salmon_decoy_quant:
         r1="results/trimmed/{sample}_R1.trimmed.fastq.gz",
         r2="results/trimmed/{sample}_R2.trimmed.fastq.gz"
     output:
-        directory("results/quants_decoy/{sample}_quant")
+        "results/quants_decoy/{sample}_quant/quant.sf"
     log:
         "logs/salmon/{sample}_salmon_decoy.log"
     threads: 20
@@ -60,5 +60,5 @@ rule salmon_decoy_quant:
             -2 {input.r2} \
             -p {threads} \
             --validateMappings \
-            -o {output} > {log} 2>&1
+            -o results/quants_decoy/{wildcards.sample}_quant > {log} 2>&1
         """
