@@ -18,7 +18,7 @@ A comprehensive Snakemake workflow for RNA-seq data analysis that combines align
 
 ## 🔍 Overview
 
-This pipeline integrates three complementary workflows for comprehensive RNA-seq analysis:
+This pipeline integrates three complementary workflows for comprehensive RNA-seq analysis: (run them sequentially!)
 
 1. **Core RNA-seq Processing**: Raw read QC, trimming, alignment, and gene-level quantification
 2. **Advanced RNA-seq QC**: Multiple QC tools to evaluate alignment quality and RNA integrity
@@ -34,7 +34,7 @@ The workflow consists of three main component pipelines:
 
 - **Quality Control**: FastQC for raw reads
 - **Read Preprocessing**: Fastp for adapter trimming and quality filtering
-- **Alignment**: HISAT2 for spliced read alignment to the reference genome
+- **Alignment**: HISAT2 for spliced read alignment to the reference genome (you can also use other aligners)
 - **BAM Processing**: Samtools for filtering, sorting, and indexing
 - **Expression Quantification**: featureCounts for gene-level counting
 - **Results Summary**: MultiQC for aggregated quality reporting
@@ -144,13 +144,13 @@ conda env create -f envs/salmon.yaml
 
 ```bash
 # Dry run to verify
-snakemake -n
+snakemake -n -s snakefile_name
 
 # Run with 20 cores
-snakemake --use-conda --cores 20
+snakemake --use-conda --cores 20 -s snakefile_name -p
 
-# Run on cluster with SLURM
-snakemake --use-conda --cluster "sbatch --mem=64g --cpus-per-task={threads}" --jobs 20
+# Run on cluster with SLURM (Not tested yet)
+snakemake --use-conda --cluster "sbatch --mem=64g --cpus-per-task={threads}" --jobs 20 -s snakefile_name
 ```
 
 ## 📁 Input Requirements
