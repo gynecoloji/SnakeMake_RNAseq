@@ -1,0 +1,134 @@
+import os
+import glob
+
+# Collect all sample names
+SAMPLES, = glob_wildcards("data/{sample}_R1_001.fastq.gz")
+
+rule all:
+    input:
+        expand("results/featurecounts/featureCount.txt", sample=[""]),
+        "results/multiqc_report.html"
+
+# Rule: FastQC on raw reads
+rule fastqc_raw:
+    input:
+        "data/{sample}_R1_001.fastq.gz",
+        "data/{sample}_R2_001.fastq.gz"
+    output:
+        html_r1="results/fastqc/raw/{sample}_R1_001_fastqc.html",
+        html_r2="results/fastqc/raw/{sample}_R2_001_fastqc.html"
+    log:
+        "logs/fastqc/{sample}.log"
+    threads: 8
+    shell:
+        """
+        mkdir -p results/fastqc/raw logs/fastqc
+        fastqc -t {threads} -o results/fastqc/raw {input} &> {log}
+        """
+
+# Rule: Trim reads with fastp
+rule fastp_trim:
+    input:
+        r1="data/{sample}_R1_001.fastq.gz",
+        r2="data/{sample}_R2_001.fastq.gz"
+    output:
+        r1_trimmed="results/trimmed/{sample}_R1.trimmed.fastq.gz",
+        r2_trimmed="results/trimmed/{sample}_R2.trimmed.fastq.gz",
+        html="results/trimmed/{sample}_fastp.html",
+        json="results/trimmed/{sample}_fastp.json"
+    log:
+        "logs/fastp/{sample}.log"
+    threads: 8
+    shell:
+        """
+        mkdir -p results/trimmed logs/fastp
+        fastp -i {input.r1} -I {input.r2} \
+              -o {output.r1_trimmed} -O {output.r2_trimmed} \
+              --html {output.html} --json {output.json} \
+              --thread {threads} \
+              --detect_adapter_for_pe -g -p \
+              &> {log}
+        """
+
+# Rule: Align reads with HISAT2
+rule hisat2_align:
+    input:
+        r1="results/trimmed/{sample}_R1.trimmed.fastq.gz",
+        r2="results/trimmed/{sample}_R2.trimmed.fastq.gz"
+    output:
+        sam="results/hisat2/{sample}.sam",
+        summary="results/hisat2/{sample}.sam.summary"
+    log:
+        "logs/hisat2/{sample}.log"
+    params:
+        index="ref/ENSEMBL/genome"   # <<< UPDATE THIS
+    threads: 20
+    shell:
+        """
+        mkdir -p results/hisat2 logs/hisat2
+        hisat2 -x {params.index} -1 {input.r1} -2 {input.r2} \
+               -S {output.sam} \
+               --summary-file {output.summary} \
+               -p {threads} \
+               -q --phred33 -X 3000 -I 0 --no-discordant --no-mixed \
+               &> {log}
+        """
+
+# Rule: Filter, sort, index BAM and generate flagstat
+rule samtools_sort_filter_index:
+    input:
+        "results/hisat2/{sample}.sam"
+    output:
+        bam="results/samtools/{sample}.sorted.filtered.bam",
+        bai="results/samtools/{sample}.sorted.filtered.bam.bai",
+        flagstat="results/samtools/{sample}_summary.txt"
+    log:
+        "logs/samtools/{sample}.log"
+    threads: 20
+    shell:
+        """
+        mkdir -p results/samtools logs/samtools
+        samtools view -@ {threads} -f 0x2 -F 0x100 -hS {input} | grep "NH:i:1\\|^@" > results/samtools/tmp_{wildcards.sample}.sam
+        samtools view -@ {threads} -bhS results/samtools/tmp_{wildcards.sample}.sam | \
+        samtools sort -@ {threads} -O bam -o {output.bam}
+        samtools index -@ {threads} {output.bam} {output.bai}
+        samtools flagstat {output.bam} > {output.flagstat}
+        rm results/samtools/tmp_{wildcards.sample}.sam
+        """
+
+# Rule: Quantify with FeatureCounts
+rule featurecount:
+    input:
+        expand("results/samtools/{sample}.sorted.filtered.bam", sample=SAMPLES)
+    output:
+        "results/featurecounts/featureCount.txt"
+    log:
+        "logs/featurecounts/featurecount.log"
+    params:
+        gtf="ref/Homo_sapiens.GRCh38.102.gtf"   # <<< UPDATE THIS
+    threads: 20
+    shell:
+        """
+        mkdir -p results/featurecounts logs/featurecounts
+        featureCounts -T {threads} --countReadPairs -p \
+                      -a {params.gtf} -F GTF -t exon -g gene_id -M -s 0 \
+                      -o {output} {input} &> {log}
+        """
+
+# Rule: Summarize everything with MultiQC
+rule multiqc:
+    input:
+        expand("results/trimmed/{sample}_fastp.json", sample=SAMPLES),
+        expand("results/fastqc/raw/{sample}_R1_001_fastqc.html", sample=SAMPLES),
+        expand("results/fastqc/raw/{sample}_R2_001_fastqc.html", sample=SAMPLES),
+        expand("results/samtools/{sample}.sorted.filtered.bam.bai", sample=SAMPLES)
+    output:
+        "results/multiqc_report.html"
+    log:
+        "logs/multiqc/multiqc.log"
+    threads: 2
+    shell:
+        """
+        mkdir -p logs/multiqc
+        multiqc results/ -o results/ &> {log}
+        """

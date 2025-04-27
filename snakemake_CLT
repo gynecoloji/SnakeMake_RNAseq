@@ -1,0 +1,4 @@
+conda config --set channel_priority strict
+snakemake --use-conda -p -s snakemakefile --cores 24 ## run snakefile_RNA, snakefile_RNAQC and snakefile_salmon sequentially
+
+
