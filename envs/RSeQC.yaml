@@ -6,51 +6,144 @@ channels:
 dependencies:
   - _libgcc_mutex=0.1
   - _openmp_mutex=4.5
+  - anyio=4.9.0
+  - backports=1.0
+  - backports.tarfile=1.2.0
+  - brotli=1.1.0
+  - brotli-bin=1.1.0
+  - bx-python=0.13.0
   - bzip2=1.0.8
+  - c-ares=1.34.5
   - ca-certificates=2025.4.26
+  - certifi=2025.1.31
+  - cffi=1.17.1
+  - click=8.1.8
+  - contourpy=1.3.2
+  - cryptography=44.0.2
+  - cycler=0.12.1
+  - dbus=1.13.6
+  - distlib=0.3.9
+  - editables=0.5
+  - exceptiongroup=1.2.2
+  - expat=2.7.0
+  - filelock=3.18.0
+  - fonttools=4.57.0
+  - freetype=2.13.3
+  - h11=0.16.0
+  - h2=4.2.0
+  - hatch=1.14.1
+  - hatchling=1.27.0
+  - hpack=4.1.0
+  - httpcore=1.0.9
+  - httpx=0.28.1
+  - hyperframe=6.1.0
+  - hyperlink=21.0.0
+  - idna=3.10
+  - importlib-metadata=8.6.1
+  - importlib_resources=6.5.2
+  - jaraco.classes=3.4.0
+  - jaraco.context=6.0.1
+  - jaraco.functools=4.1.0
+  - jeepney=0.9.0
+  - keyring=25.6.0
+  - keyutils=1.6.1
+  - kiwisolver=1.4.8
+  - krb5=1.21.3
+  - lcms2=2.17
   - ld_impl_linux-64=2.43
+  - lerc=4.0.0
+  - libblas=3.9.0
+  - libbrotlicommon=1.1.0
+  - libbrotlidec=1.1.0
+  - libbrotlienc=1.1.0
+  - libcblas=3.9.0
+  - libcurl=8.13.0
+  - libdeflate=1.22
+  - libedit=3.1.20250104
+  - libev=4.33
+  - libexpat=2.7.0
   - libffi=3.4.6
+  - libfreetype=2.13.3
+  - libfreetype6=2.13.3
   - libgcc=14.2.0
   - libgcc-ng=14.2.0
+  - libgfortran=14.2.0
+  - libgfortran5=14.2.0
+  - libglib=2.84.1
   - libgomp=14.2.0
+  - libiconv=1.18
+  - libjpeg-turbo=3.1.0
+  - liblapack=3.9.0
   - liblzma=5.8.1
-  - liblzma-devel=5.8.1
+  - libnghttp2=1.64.0
   - libnsl=2.0.1
+  - libopenblas=0.3.29
+  - libpng=1.6.47
   - libsqlite=3.49.1
+  - libssh2=1.11.1
+  - libstdcxx=14.2.0
+  - libstdcxx-ng=14.2.0
+  - libtiff=4.7.0
   - libuuid=2.38.1
+  - libwebp-base=1.5.0
+  - libxcb=1.17.0
   - libxcrypt=4.4.36
   - libzlib=1.3.1
+  - logomaker=0.8.6
+  - markdown-it-py=3.0.0
+  - matplotlib-base=3.10.1
+  - mdurl=0.1.2
+  - more-itertools=10.7.0
+  - munkres=1.1.4
   - ncurses=6.5
+  - numpy=2.2.5
+  - openjpeg=2.5.3
   - openssl=3.5.0
-  - pip=22.1.2
-  - python=3.8.20
+  - packaging=25.0
+  - pandas=2.2.3
+  - pathspec=0.12.1
+  - pcre2=10.44
+  - pexpect=4.9.0
+  - pillow=11.1.0
+  - pip=25.1
+  - platformdirs=4.3.7
+  - pluggy=1.5.0
+  - pthread-stubs=0.4
+  - ptyprocess=0.7.0
+  - pybigwig=0.3.24
+  - pycparser=2.22
+  - pygments=2.19.1
+  - pyparsing=3.2.3
+  - pysam=0.23.0
+  - python=3.12.10
+  - python-dateutil=2.9.0.post0
+  - python-tzdata=2025.2
+  - python_abi=3.12
+  - pytz=2025.2
+  - qhull=2020.2
   - readline=8.2
-  - setuptools=70.3.0
+  - rich=14.0.0
+  - rseqc=5.0.4
+  - secretstorage=3.3.3
+  - setuptools=79.0.1
+  - shellingham=1.5.4
+  - six=1.17.0
+  - sniffio=1.3.1
   - tk=8.6.13
+  - tomli=2.2.1
+  - tomli-w=1.2.0
+  - tomlkit=0.13.2
+  - trove-classifiers=2025.4.11.15
+  - typing_extensions=4.13.2
+  - tzdata=2025b
+  - unicodedata2=16.0.0
+  - userpath=1.9.2
+  - uv=0.6.17
+  - virtualenv=20.30.0
   - wheel=0.45.1
-  - xz=5.8.1
-  - xz-gpl-tools=5.8.1
-  - xz-tools=5.8.1
-  - pip:
-      - bx-python==0.13.0
-      - contourpy==1.1.1
-      - cycler==0.12.1
-      - fonttools==4.57.0
-      - importlib-resources==6.4.5
-      - kiwisolver==1.4.7
-      - logomaker==0.8.7
-      - matplotlib==3.7.5
-      - numpy==1.24.4
-      - packaging==25.0
-      - pandas==2.0.3
-      - pillow==10.4.0
-      - pybigwig==0.3.22
-      - pyparsing==3.1.4
-      - pysam==0.23.0
-      - python-dateutil==2.9.0.post0
-      - pytz==2025.2
-      - rseqc==5.0.4
-      - six==1.17.0
-      - tzdata==2025.2
-      - zipp==3.20.2
+  - xorg-libxau=1.0.12
+  - xorg-libxdmcp=1.1.5
+  - zipp=3.21.0
+  - zstandard=0.23.0
+  - zstd=1.5.7
 prefix: /home/workstation/anaconda3/envs/RSeQC
