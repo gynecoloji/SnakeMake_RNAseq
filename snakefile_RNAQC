@@ -12,8 +12,8 @@ rule all:
         expand("results/samtools_byname/{sample}.sorted.byname.bam", sample=SAMPLES),
         expand("results/qualimap_rnaseq/{sample}", sample=SAMPLES),
         expand("results/rseqc/{sample}_RD_summary.txt", sample=SAMPLES),
-        expand("results/rseqc/{sample}_GC_content.txt", sample=SAMPLES),
-        expand("results/rseqc/{sample}_TIN_log.txt", sample=SAMPLES)
+        expand("results/rseqc/{sample}_GC_content.GC.xls", sample=SAMPLES),
+        expand("results/rseqc/{sample}.sorted.filtered.tin.xls", sample=SAMPLES)
 
 # Rule 1: Picard CollectInsertSizeMetrics + AWK extraction
 rule picard_mean_fragment_length:
@@ -30,7 +30,7 @@ rule picard_mean_fragment_length:
     conda:
         "envs/qualimap.yaml"
     shell:
-        """
+        """ 
         mkdir -p results/picard logs/picard
         java -jar {params.picard_jar} CollectInsertSizeMetrics \
             I={input.bam} \
@@ -159,7 +159,7 @@ rule rseqc_tin:
     input:
         bam="results/samtools/{sample}.sorted.filtered.bam"
     output:
-        "results/rseqc/{sample}_TIN_log.txt"
+        "results/rseqc/{sample}.sorted.filtered.tin.xls"
     log:
         "logs/rseqc/{sample}_TIN.log"
     params:
