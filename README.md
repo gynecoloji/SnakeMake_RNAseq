@@ -148,9 +148,6 @@ snakemake -n -s snakefile_name
 
 # Run with 20 cores
 snakemake --use-conda --cores 20 -s snakefile_name -p
-
-# Run on cluster with SLURM (Not tested yet)
-snakemake --use-conda --cluster "sbatch --mem=64g --cpus-per-task={threads}" --jobs 20 -s snakefile_name
 ```
 
 ## 📁 Input Requirements
@@ -224,5 +221,5 @@ For questions or feedback, please open an issue on the GitHub repository or cont
 
 ---
 
-Last updated: April 27, 2025  
+Last updated: Dec 11th, 2025  
 Created by: gynecoloji
